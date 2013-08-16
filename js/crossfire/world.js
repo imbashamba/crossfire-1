@@ -63,18 +63,7 @@
 
             this.createBorders();
 
-            this.update();
-        },
-
-        /**
-         * Setting timer for updating the world
-         */
-        update: function() {
             this.step();
-
-            console.log("Updated");
-
-            setTimeout(this.update.bind(this), 10);
         },
 
         /**
@@ -82,6 +71,8 @@
          */
         step: function() {
             this.world.Step(1.0/60.0, 10, 10);
+
+            setTimeout(this.step.bind(this), 10);
         },
 
         /**
@@ -95,7 +86,6 @@
     if(!global.cf) {
         global.cf = {};
     }
-    global.cf.CanvasElem = CanvasElem;
     global.cf.World = World;
 
 }(this));
