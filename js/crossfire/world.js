@@ -119,7 +119,7 @@
             var downBodyDef = this.createBorderBody(),
                 downFixDef = this.createBorderFix();
 
-            downFixDef.SetAsBox(this.canvas.width/this.SCALE, 2);
+            downFixDef.shape.SetAsBox(this.canvas.width/this.SCALE, 2);
             downBodyDef.position.Set(10, this.canvas.height/this.SCALE + 1.8);
 
             this.world.CreateBody(downBodyDef).CreateFixture(downFixDef);
@@ -128,7 +128,7 @@
             var upBodyDef = this.createBorderBody(),
                 upFixDef = this.createBorderFix();
 
-            upFixDef.SetAsBox(this.canvas.width/this.SCALE, 2);
+            upFixDef.shape.SetAsBox(this.canvas.width/this.SCALE, 2);
             upBodyDef.position.Set(10, -1.8);
 
             this.world.CreateBody(upBodyDef).CreateFixture(upFixDef);
@@ -137,16 +137,16 @@
             var leftBodyDef = this.createBorderBody(),
                 leftFixDef = this.createBorderFix();
 
-            leftFixDef.SetAsBox(2, this.canvas.height/this.SCALE);
+            leftFixDef.shape.SetAsBox(2, this.canvas.height/this.SCALE);
             leftBodyDef.position.Set(-1.8, 13);
 
             this.world.CreateBody(leftBodyDef).CreateFixture(leftFixDef);
 
             //create right border
             var rightBodyDef = this.createBorderBody(),
-                leftFixDef = this.createBorderFix();
+                rightFixDef = this.createBorderFix();
 
-            rightFixDef.SetAsBox(2, this.canvas.height/this.SCALE);
+            rightFixDef.shape.SetAsBox(2, this.canvas.height/this.SCALE);
             rightBodyDef.position.Set(this.canvas.width/this.SCALE + 1.8, 13);
 
             this.world.CreateBody(rightBodyDef).CreateFixture(rightFixDef);
@@ -191,6 +191,10 @@
     if(!global.cf) {
         global.cf = {};
     }
-    global.cf.World = World;
+    if(!global.cf.World) {
+        global.cf.World = {};
+    }
+
+    global.cf.World.initialize = World.initialize.bind(World);
 
 }(this));
