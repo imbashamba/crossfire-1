@@ -57,8 +57,6 @@
 
         canvas: CanvasElem,
 
-        borders: {},
-
         /**
          * Create world
          */
@@ -116,40 +114,69 @@
          * Create four borders: up, down, right, left
          */
         createBorders: function() {
-            var downFixDef = this.createDefaultFixture(),
-                upFixDef = this.createDefaultFixture(),
-                rightFixDef = this.createDefaultFixture(),
-                leftFixDef = this.createDefaultFixture(),
-                downBodyDef = new b2BodyDef,
-                upBodyDef = new b2BodyDef,
-                rightBodyDef = new b2BodyDef,
-                leftBodyDef = new b2BodyDef;
 
-            downBodyDef.type = b2Body.b2_staticBody;
-            upBodyDef.type = b2Body.b2_staticBody;
-            rightBodyDef.type = b2Body.b2_staticBody;
-            leftBodyDef.type = b2Body.b2_staticBody;
-            
-            downFixDef.shape = new b2PolygonShape();
-            downFixDef.shape.SetAsBox(this.canvas.width/this.SCALE, 2);
-            upFixDef.shape = new b2PolygonShape();
-            upFixDef.shape.SetAsBox(this.canvas.width/this.SCALE, 2);
-            rightFixDef.shape = new b2PolygonShape();
-            rightFixDef.shape.SetAsBox(2, this.canvas.height/this.SCALE);
-            leftFixDef.shape = new b2PolygonShape();
-            leftFixDef.shape.SetAsBox(2, this.canvas.height/this.SCALE);
+            // create down border
+            var downBodyDef = this.createBorderBody(),
+                downFixDef = this.createBorderFix();
 
+            downFixDef.SetAsBox(this.canvas.width/this.SCALE, 2);
             downBodyDef.position.Set(10, this.canvas.height/this.SCALE + 1.8);
-            upBodyDef.position.Set(10, -1.8);
-            leftBodyDef.position.Set(-1.8, 13);
-            rightBodyDef.position.Set(this.canvas.width/this.SCALE + 1.8, 13);
 
             this.world.CreateBody(downBodyDef).CreateFixture(downFixDef);
+
+            // create up border
+            var upBodyDef = this.createBorderBody(),
+                upFixDef = this.createBorderFix();
+
+            upFixDef.SetAsBox(this.canvas.width/this.SCALE, 2);
+            upBodyDef.position.Set(10, -1.8);
+
             this.world.CreateBody(upBodyDef).CreateFixture(upFixDef);
+
+            //create left border
+            var leftBodyDef = this.createBorderBody(),
+                leftFixDef = this.createBorderFix();
+
+            leftFixDef.SetAsBox(2, this.canvas.height/this.SCALE);
+            leftBodyDef.position.Set(-1.8, 13);
+
             this.world.CreateBody(leftBodyDef).CreateFixture(leftFixDef);
+
+            //create right border
+            var rightBodyDef = this.createBorderBody(),
+                leftFixDef = this.createBorderFix();
+
+            rightFixDef.SetAsBox(2, this.canvas.height/this.SCALE);
+            rightBodyDef.position.Set(this.canvas.width/this.SCALE + 1.8, 13);
+
             this.world.CreateBody(rightBodyDef).CreateFixture(rightFixDef);
         },
 
+        /**
+         * Create border body
+         */
+        createBorderBody: function() {
+            var borderBodyDef = new b2BodyDef;
+
+            borderBodyDef.type = b2Body.b2_staticBody;
+
+            return borderBodyDef;
+        },
+
+        /**
+         * Create border fixture
+         */
+        createBorderFix: function() {
+            var borderFix = this.createDefaultFixture();
+
+            borderFix.shape = new b2PolygonShape();
+
+            return borderFix;
+        },
+
+        /**
+         * Create fixture with default parameters
+         */
         createDefaultFixture: function() {
             var fix = new b2FixtureDef();
 
